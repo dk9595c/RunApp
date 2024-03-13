@@ -5,7 +5,7 @@
 .fontX{
     text-align: left;
     color: white ;
-    font-size : 32px;
+    font-size : 82px;
     font-family: Arial
 }
     
@@ -13,7 +13,30 @@
 {
     color: white ;
     font-family: Arial;
-    font-size : 20px;
+    font-size : 50px;
+    margin-top : 0px;
+    margin-bottom : 0px;
+}
+    
+.sizeButton
+{
+    font-family: Arial;
+    font-size : 50px;
+    
+}
+.emphasizeRed
+{
+    font-family: Arial;
+    font-size : 70px;
+    color : red;
+}
+
+.emphasizeYellow
+{
+    font-family : Arial;
+    font-size : 70px;
+    color : yellow;
+    
 }
 </style>
 </head>
@@ -22,12 +45,16 @@
 <p class="fontX">Avg. speed calculator</p>
 
 
-<button onclick="distanceFunction()">Reset distance</button>
+<button class = "sizeButton" onclick="distanceFunction()">Reset distance</button>
+<br><br><br><br><br>
+<p class = "fontWhite">Avg. speed required : <span class = "emphasizeRed", id="demo"> 0.00</span> kmph</p> \
+
 <br><br>
-
-<p class = "fontWhite">Average speed required : </p> <p class = "fontWhite", id="demo"> 0.00</p>
-
+<p id=m12 class = "fontWhite">Maintain 12 kmph for <span class = "emphasizeYellow" id="mText"></span> mins</p>
+<p id=m12 class = "fontWhite">to make it come down to 5 kmph<span id="mText"></span></p>
 <script>
+    
+    
 let distance = 11.7;
 let current_distance = 0.0
 
@@ -72,7 +99,9 @@ function calculateFunction() {
   
   timeDiff = (time - currentTime)/(1000 * 3600);
   avg_speed_req = (11.7 - current_distance) / ( timeDiff);
-    
+  
+  let twelveSpeed = ((11.7 - current_distance) - 5 * (timeDiff)) * 8.571918;
+    document.getElementById("mText").innerHTML = twelveSpeed.toFixed(2);
     document.getElementById("demo").innerHTML = avg_speed_req.toFixed(2);
   }
 
