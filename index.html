@@ -21,10 +21,15 @@
 .sizeButton
 {
     font-family: Arial;
-    font-size : 45px;
+    font-size : 40px;
+    height : 65px;
+    width : 355px;
+    color : #CCCCCC;
     border : 0;
     background-color : #333333;
     border-radius: 10px;
+    display : inline;
+    margin-right : 20px;
 }
 .emphasizeRed
 {
@@ -47,17 +52,24 @@
 <p class="fontX">Avg. speed calculator</p>
 
 
-<button class = "sizeButton" onclick="distanceFunction()">Reset distance</button>
+<button class = "sizeButton" onclick="distanceFunction()">Distance covered</button>
+<button class = "sizeButton" onclick="SetDistFunction()">Total distance</button>
 <br><br><br><br><br>
 <p class = "fontWhite">Avg. speed required : <span class = "emphasizeRed", id="demo"> 0.00</span> kmph</p> \
 
 <br><br>
 <p id=m12 class = "fontWhite">Maintain 12 kmph for <span class = "emphasizeYellow" id="mText"></span> mins</p>
-<p id=m12 class = "fontWhite">to make it come down to 5 kmph<span id="mText"></span></p>
+<p id=m13 class = "fontWhite">to make it come down to 5 kmph<span id="mText"></span></p>
 <script>
     
     
 let distance = 11.7;
+
+function SetDistFunction()
+{
+    distance = prompt("Enter the total distance");
+}
+    
 let current_distance = 0.0
 
 let latitude = 13.112278;
@@ -87,7 +99,7 @@ function distanceFunction() {
   let avg_speed_req = 0.0;
   
   timeDiff = (time - currentTime)/(1000 * 3600);
-  avg_speed_req = (11.7 - current_distance) / ( timeDiff);
+  avg_speed_req = (distance - current_distance) / ( timeDiff);
   avg_speed_req = avg_speed_req.toFixed(2);
     
     document.getElementById("demo").innerHTML = avg_speed_req;
@@ -100,17 +112,21 @@ function calculateFunction() {
   let avg_speed_req = 0.0;
   
   timeDiff = (time - currentTime)/(1000 * 3600);
-  avg_speed_req = (11.7 - current_distance) / ( timeDiff);
+  avg_speed_req = (distance - current_distance) / ( timeDiff);
   
-  let twelveSpeed = ((11.7 - current_distance) - 5 * (timeDiff)) * 8.571918;
+  let twelveSpeed = ((distance - current_distance) - 5 * (timeDiff)) * 8.571918;
     document.getElementById("mText").innerHTML = twelveSpeed.toFixed(2);
     document.getElementById("demo").innerHTML = avg_speed_req.toFixed(2);
   }
 
     
-      
+function SetDistFunction()
+{
+    distance = prompt("Enter the total distance");
+}
 
 </script>
+
 
 </body>
 </html>
