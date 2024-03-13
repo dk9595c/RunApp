@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+.fontX{
+    text-align: left;
+    color: white ;
+    font-size : 32px;
+    font-family: Arial
+}
+    
+.fontWhite
+{
+    color: white ;
+    font-family: Arial;
+    font-size : 20px;
+}
+</style>
+</head>
+<body bgcolor='#000000'>
+
+<p class="fontX">Avg. speed calculator</p>
+
+
+<button onclick="distanceFunction()">Reset distance</button>
+<br><br>
+
+<p class = "fontWhite">Average speed required : </p> <p class = "fontWhite", id="demo"> 0.00</p>
+
+<script>
+let distance = 11.7;
+let current_distance = 0.0
+
+let latitude = 13.112278;
+let longitude = 77.595146
+let time = new Date();
+
+const url = `https://api.sunrisesunset.io/json?lat=${latitude}&lng=${longitude}`
+let fetchedObj=fetch(url)
+  .then(response => response.json())
+  .then(data => {
+    console.log(data)
+    time.setHours(parseInt(data.results.sunset[0])+12, parseInt(data.results.sunset[2])*10+parseInt(data.results.sunset[3]), 0, 0);
+    
+  })
+  .catch(error => console.error('Error:', error))
+
+
+    
+let timeDiff = new Date();
+
+setInterval(calculateFunction, 1000);
+ 
+function distanceFunction() {
+  current_distance = prompt("Please enter the distance covered");
+  
+  let currentTime = new Date();
+  let avg_speed_req = 0.0;
+  
+  timeDiff = (time - currentTime)/(1000 * 3600);
+  avg_speed_req = (11.7 - current_distance) / ( timeDiff);
+  avg_speed_req = avg_speed_req.toFixed(2);
+    
+    document.getElementById("demo").innerHTML = avg_speed_req;
+  
+  
+}
+    
+function calculateFunction() {
+  let currentTime = new Date();
+  let avg_speed_req = 0.0;
+  
+  timeDiff = (time - currentTime)/(1000 * 3600);
+  avg_speed_req = (11.7 - current_distance) / ( timeDiff);
+    
+    document.getElementById("demo").innerHTML = avg_speed_req.toFixed(2);
+  }
+
+    
+      
+
+</script>
+
+</body>
+</html>
