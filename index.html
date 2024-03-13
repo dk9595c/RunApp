@@ -22,15 +22,16 @@
 {
     font-family: Arial;
     font-size : 50px;
-    height : 135px;
-    width : 455px;
-    color : #CCCCCC;
+    height : 127px;
+    width : 405px;
+    color : #dddddd;
     border : 0;
-    background-color : #333333;
-    border-radius: 10px;
+    background-color : #000000;
+    border-radius: 20px;
     display : inline;
-    margin-right : 10px;
-    margin-left  : 12px;
+    text-align : center;
+    box-shadow : none;
+    border : none;
 }
 .emphasizeRed
 {
@@ -46,25 +47,58 @@
     color : yellow;
     
 }
+    
+.fieLD
+{
+    font-family: Arial;
+    font-size : 30px;
+    height : 155px;
+    width : 412px;
+    color : #cccccc;
+    border : 0;
+    background-color : #000000;
+    border-radius: 20px;
+    display : inline;
+    margin-right : 0px;
+    margin-left  : 13px;
+    margin-bottom : 10px;
+    text-align : left;
+    border-bottom : 2px solid #cccccc;
+    border-top : 2px solid #cccccc;
+    border-left : 2px solid #cccccc;
+    border-right : 2px solid #cccccc;
+}
+    
+    *:focus {
+        outline: none;
+    }
 </style>
 </head>
 <body bgcolor='#000000'>
 
 <p class="fontX">Avg. speed calculator</p>
 
+<!--<button class = "sizeButton" onclick="distanceFunction()">Distance covered</button>  -->
+<fieldset class = "fieLD"><legend>Dist. covered</legend>
+<input class="sizeButton" type="number" id="distText" value = "2.2"/>
+</fieldset>
+<!-- <button class = "sizeButton" onclick="SetDistFunction()">Total distance</button>  -->
+<fieldset class = "fieLD"><legend>Total dist.</legend>
+<input type="number" class="sizeButton" id="TotDist" value="11.7"/>
+</fieldset>
 
-<button class = "sizeButton" onclick="distanceFunction()">Distance covered</button>
-<button class = "sizeButton" onclick="SetDistFunction()">Total distance</button>
 <br><br><br><br><br>
 <p class = "fontWhite">Avg. speed required : <span class = "emphasizeRed", id="demo"> 0.00</span> kmph</p> \
 
 <br><br>
 <p id=m12 class = "fontWhite">Maintain 12 kmph for <span class = "emphasizeYellow" id="mText"></span> mins</p>
 <p id=m13 class = "fontWhite">to make it come down to 5 kmph<span id="mText"></span></p>
+
 <script>
     
     
 let distance = 11.7;
+
 
 function SetDistFunction()
 {
@@ -76,6 +110,10 @@ let current_distance = 0.0
 let latitude = 13.112278;
 let longitude = 77.595146
 let time = new Date();
+
+
+distance = (document.getElementById("TotDist").value);
+current_distance = (document.getElementById("distText").value);
 
 const url = `https://api.sunrisesunset.io/json?lat=${latitude}&lng=${longitude}`
 let fetchedObj=fetch(url)
@@ -109,6 +147,10 @@ function distanceFunction() {
 }
     
 function calculateFunction() {
+    
+  current_distance = (document.getElementById("distText").value);
+  distance = (document.getElementById("TotDist").value);
+  
   let currentTime = new Date();
   let avg_speed_req = 0.0;
   
@@ -118,16 +160,11 @@ function calculateFunction() {
   let twelveSpeed = ((distance - current_distance) - 5 * (timeDiff)) * 8.571918;
     document.getElementById("mText").innerHTML = twelveSpeed.toFixed(2);
     document.getElementById("demo").innerHTML = avg_speed_req.toFixed(2);
+    document.getElementById("ttt").innerHTML = distance;
   }
 
     
-function SetDistFunction()
-{
-    distance = prompt("Enter the total distance");
-}
-
 </script>
-
 
 </body>
 </html>
