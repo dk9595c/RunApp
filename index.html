@@ -9,13 +9,44 @@
     font-family: Arial
 }
     
-.fontWhite
+.fontWhite1
 {
-    color: white ;
+    color: #eeeeee ;
+    font-family: Arial;
+    font-size : 50px;
+    margin-top : 0px;
+    margin-bottom : 25px;
+}
+
+.fontWhite2
+{
+    color: #eeeeee ;
     font-family: Arial;
     font-size : 50px;
     margin-top : 0px;
     margin-bottom : 0px;
+    
+}
+
+.fontWhite3
+{
+    color: #eeeeee ;
+    font-family: Arial;
+    font-size : 50px;
+    margin-top : 0px;
+    margin-bottom : 0px;
+    margin-right : 0px;
+    
+}
+    
+.fontWhite4
+{
+    color: #eeeeee ;
+    font-family: Arial;
+    font-size : 50px;
+    margin-top : 0px;
+    margin-bottom : 0px;
+    margin-top : 0px;
 }
     
 .sizeButton
@@ -36,18 +67,26 @@
 .emphasizeRed
 {
     font-family: Arial;
-    font-size : 70px;
+    font-size : 80px;
     color : red;
+    margin-top : 15px;
 }
 
 .emphasizeYellow
 {
     font-family : Arial;
-    font-size : 70px;
+    font-size : 80px;
     color : yellow;
-    
+    margin-top : 20px;
 }
-    
+
+.emphasizeGreen
+{
+    font-family : Arial;
+    font-size : 80px;
+    color : #32CD32;
+    margin-top : 0px;
+}
 .fieLD
 {
     font-family: Arial;
@@ -88,17 +127,34 @@
 </fieldset>
 
 <br><br><br><br><br>
-<p class = "fontWhite">Avg. speed required : <span class = "emphasizeRed", id="demo"> 0.00</span> kmph</p> \
+<p class = "fontWhite1">Avg. speed required : <span class = "emphasizeRed", id="mAvg"> 0.00</span> kmph</p> \
 
-<br><br>
-<p id=m12 class = "fontWhite">Keep 12 kmph for <span class = "emphasizeYellow" id="mText"></span> mins</p>
-<p id=m13 class = "fontWhite">to make it come down to 5 kmph<span id="mText"></span></p>
+
+<!-- Displaying "maintain 12 kmph" time  -->
+<p id=m12_1 class = "fontWhite2">Keep 12 kmph for <span class = "emphasizeYellow" id="mTwelve"></span><span id=m12_3 class = "fontWhite2"> mins</p>
+<p id=m12_2 class = "fontWhite4">to bring it down to 5 kmph</p>
+
+
+<!-- Displaying rest time  -->
+<p id=mRest1 class = "fontWhite3">You can rest for <span class = "emphasizeGreen" id="mRest"></span><span id=mRest3 class = "fontWhite3"> mins</span></p>
+<p id=mRest2 class = "fontWhite4">till it becomes 5 kmph again</p>
 
 <script>
+//<><><><><><><><><><><><><><><><><><><><><><><>    <script started>      <><><><><><><><><><><><><><><><><><><><><><><><><>
     
     
 let distance = 11.7;
+document.getElementById("mTwelve").innerHTML = "0.00";
 
+var a = document.getElementById("mRest1");
+var b = document.getElementById("mRest2");
+var c = document.getElementById("mRest");
+
+a.style.display = "none";
+b.style.display = "none";
+c.style.display = "none";
+
+// =========================================      functions starting    =================================================
 
 function SetDistFunction()
 {
@@ -141,7 +197,7 @@ function distanceFunction() {
   avg_speed_req = (distance - current_distance) / ( timeDiff);
   avg_speed_req = avg_speed_req.toFixed(2);
     
-    document.getElementById("demo").innerHTML = avg_speed_req;
+    document.getElementById("mAvg").innerHTML = avg_speed_req;
   
               
 }
@@ -153,14 +209,71 @@ function calculateFunction() {
   
   let currentTime = new Date();
   let avg_speed_req = 0.0;
+  let rest_time = 0.0;
   
-  timeDiff = (time - currentTime)/(1000 * 3600);
+  timeDiff = (time - currentTime)/(1000 * 3600);   // remaining_time in hours
   avg_speed_req = (distance - current_distance) / ( timeDiff);
   
+  rest_time = ((5 * timeDiff) - (distance - current_distance)) * 12;  // rest time (in mins.) calculation
+  
+  
   let twelveSpeed = ((distance - current_distance) - 5 * (timeDiff)) * 8.571918;
-    document.getElementById("mText").innerHTML = twelveSpeed.toFixed(2);
-    document.getElementById("demo").innerHTML = avg_speed_req.toFixed(2);
-    document.getElementById("ttt").innerHTML = distance;
+    
+    if(avg_speed_req <= 5)
+    {
+        var a = document.getElementById("mRest1");
+        var b = document.getElementById("mRest2");
+        var c = document.getElementById("mRest");
+        
+        var x = document.getElementById("m12_1");
+        var y = document.getElementById("m12_2");
+        var z = document.getElementById("mTwelve");
+        
+        x.style.display = "none";
+        y.style.display = "none";
+        z.style.display = "none";
+        
+        a.style.display = "block";
+        b.style.display = "inline";
+        c.style.display = "inline";
+    }
+    
+    else
+    {
+        var a = document.getElementById("mRest1");
+        var b = document.getElementById("mRest2");
+        var c = document.getElementById("mRest");
+        
+        var x = document.getElementById("m12_1");
+        var y = document.getElementById("m12_2");
+        var z = document.getElementById("mTwelve");
+        
+        x.style.display = "block";
+        y.style.display = "inline";
+        z.style.display = "inline";
+        
+        a.style.display = "none";
+        b.style.display = "none";
+        c.style.display = "none";
+    }
+    
+    if(rest_time > 60)
+     {
+         document.getElementById("mRest3").innerHTML = " hours"
+         document.getElementById("mRest").style.color = "#757575"
+         document.getElementById("mRest").innerHTML = (rest_time / 60).toFixed(2);
+     }
+     else
+     {
+         document.getElementById("mRest3").innerHTML = " mins"
+         document.getElementById("mRest").style.color = "#32CD32"
+         document.getElementById("mRest").innerHTML = rest_time.toFixed(2);
+     }
+    
+    document.getElementById("mTwelve").innerHTML = twelveSpeed.toFixed(2);   // 12 speed
+    document.getElementById("mAvg").innerHTML = avg_speed_req.toFixed(2);  // Avg. speed req
+   // document.getElementById("mRest").innerHTML = rest_time.toFixed(2);     // rest time
+    
   }
 
     
