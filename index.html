@@ -16,6 +16,7 @@
     font-size : 50px;
     margin-top : 0px;
     margin-bottom : 25px;
+    display : none;
 }
 
 .fontWhite2
@@ -25,7 +26,7 @@
     font-size : 50px;
     margin-top : 0px;
     margin-bottom : 0px;
-    
+    display : none;
 }
 
 .fontWhite3
@@ -36,7 +37,7 @@
     margin-top : 0px;
     margin-bottom : 0px;
     margin-right : 0px;
-    
+    display : none;
 }
     
 .fontWhite4
@@ -47,6 +48,18 @@
     margin-top : 0px;
     margin-bottom : 0px;
     margin-top : 0px;
+    display : none;
+}
+    
+.fontWhite5
+{
+    color: #eeeeee ;
+    font-family: Arial;
+    font-size : 50px;
+    margin-top : 0px;
+    margin-bottom : 0px;
+    margin-right : 0px;
+    display : none;
 }
     
 .sizeButton
@@ -70,14 +83,25 @@
     font-size : 80px;
     color : red;
     margin-top : 15px;
+    display : none;
 }
 
+.SpecialFont
+{
+    font-family: Arial;
+    font-size : 70px;
+    color : yellow;
+    margin-top : 65px;
+    text-align : center;
+}
+    
 .emphasizeYellow
 {
     font-family : Arial;
     font-size : 80px;
     color : yellow;
     margin-top : 20px;
+    display : none;
 }
 
 .emphasizeGreen
@@ -86,6 +110,7 @@
     font-size : 80px;
     color : #32CD32;
     margin-top : 0px;
+    display : none;
 }
 .fieLD
 {
@@ -127,41 +152,46 @@
 </fieldset>
 
 <br><br><br><br><br>
-<p class = "fontWhite1">Avg. speed required : <span class = "emphasizeRed", id="mAvg"> 0.00</span> kmph</p> \
+<p id=mAAA class = "fontWhite1">Avg. speed required : <span class = "emphasizeRed", id="mAvg"> ----</span> kmph</p> \
 
 
 <!-- Displaying "maintain 12 kmph" time  -->
-<p id=m12_1 class = "fontWhite2">Keep 12 kmph for <span class = "emphasizeYellow" id="mTwelve"></span><span id=m12_3 class = "fontWhite2"> mins</p>
+<p id=m12_1 class = "fontWhite2">Keep 12 kmph for <span class = "emphasizeYellow" id="mTwelve"></span><span id=m12_3 class = "fontWhite5"> mins</p>
 <p id=m12_2 class = "fontWhite4">to bring it down to 5 kmph</p>
 
 
 <!-- Displaying rest time  -->
-<p id=mRest1 class = "fontWhite3">You can rest for <span class = "emphasizeGreen" id="mRest"></span><span id=mRest3 class = "fontWhite3"> mins</span></p>
+<p id=mRest1 class = "fontWhite3">You can rest for <span class = "emphasizeGreen" id="mRest"></span><span id=mRest3 class = "fontWhite5"> mins</span></p>
 <p id=mRest2 class = "fontWhite4">till it becomes 5 kmph again</p>
+
+<p id=mLoc class = "SpecialFont"> Getting the device location</p>
 
 <script>
 //<><><><><><><><><><><><><><><><><><><><><><><>    <script started>      <><><><><><><><><><><><><><><><><><><><><><><><><>
 
 
-let latitude = 13.112278;
-let longitude = 77.595146;
+let latitude = 13.1225152;
+let longitude = 77.6103922;
+let sunCounter = 0;
 
 const successCallback = (position) => {
   latitude = position.coords.latitude;
   longitude = position.coords.longitude;
-  //console.log(latitude);
+//  setTimeout(SunsetFunction, 6000);
+  console.log(position);
   //console.log(longitude);
 };
 
 const errorCallback = (error) => {
   console.log(error);
+  
 };
 
 // Fetching the user's live location
 navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
     
 let distance = 11.8;
-document.getElementById("mTwelve").innerHTML = "0.00";
+document.getElementById("mTwelve").innerHTML = "----";
 
 var a = document.getElementById("mRest1");
 var b = document.getElementById("mRest2");
@@ -188,6 +218,8 @@ current_distance = (document.getElementById("distText").value);
 
 
 // Calling the sunset-sunrise time API
+function SunsetFunction()
+{
 const url = `https://api.sunrisesunset.io/json?lat=${latitude}&lng=${longitude}`
 let fetchedObj=fetch(url)
   .then(response => response.json())
@@ -197,12 +229,12 @@ let fetchedObj=fetch(url)
     
   })
   .catch(error => console.error('Error:', error))
-
+}
 
     
 let timeDiff = new Date();
 
-setInterval(calculateFunction, 1000);
+setInterval(calculateFunction, 1000);   // Calling the Calculate function every second
  
 function distanceFunction() {
   current_distance = prompt("Please enter the distance covered");
@@ -228,6 +260,35 @@ function calculateFunction() {
   let avg_speed_req = 0.0;
   let rest_time = 0.0;
   
+  if(sunCounter<=8)
+  {SunsetFunction();
+   document.getElementById("mAvg").innerHTML = "----";
+   document.getElementById("mTwelve").innerHTML = "----";
+   document.getElementById("mRest").innerHTML = "----";
+   
+   var a = document.getElementById("mRest1");
+   var b = document.getElementById("mRest2");
+   var c = document.getElementById("mRest");
+   var d = document.getElementById("mAvg");
+   var e = document.getElementById("mAAA");
+   
+   var x = document.getElementById("m12_1");
+   var y = document.getElementById("m12_2");
+   var z = document.getElementById("mTwelve");
+   
+   x.style.display = "none";
+   y.style.display = "none";
+   z.style.display = "none";
+   
+   a.style.display = "none";
+   b.style.display = "none";
+   c.style.display = "none";
+   d.style.display = "none";
+   e.style.display = "none";
+   
+   sunCounter+=1;
+  }
+  
   timeDiff = (time - currentTime)/(1000 * 3600);   // remaining_time in hours
   avg_speed_req = (distance - current_distance) / ( timeDiff);
   
@@ -235,7 +296,11 @@ function calculateFunction() {
   
   
   let twelveSpeed = ((distance - current_distance) - 5 * (timeDiff)) * 8.571918;
-    
+   if(sunCounter>8)
+   {   var d = document.getElementById("mAvg").style.display = "inline";;
+       var e = document.getElementById("mAAA").style.display = "block";;
+       var f = document.getElementById("m12_3").style.display = "inline";;
+       
     if(avg_speed_req <= 5)
     {
         var a = document.getElementById("mRest1");
@@ -273,22 +338,37 @@ function calculateFunction() {
         b.style.display = "none";
         c.style.display = "none";
     }
-    
+   }
     if(rest_time > 60)
      {
-         document.getElementById("mRest3").innerHTML = " hours"
-         document.getElementById("mRest").style.color = "#757575"
-         document.getElementById("mRest").innerHTML = (rest_time / 60).toFixed(2);
+         document.getElementById("mRest3").style.display = "inline";
+         document.getElementById("mRest3").innerHTML = " hours";
+         document.getElementById("mRest").style.color = "#757575";
+         if(sunCounter>8)
+         {document.getElementById("mRest").innerHTML = (rest_time / 60).toFixed(2);
+          let cha = document.getElementById("mLoc");
+          cha.style.display = "none";
+         }
      }
      else
      {
-         document.getElementById("mRest3").innerHTML = " mins"
-         document.getElementById("mRest").style.color = "#32CD32"
-         document.getElementById("mRest").innerHTML = rest_time.toFixed(2);
+         document.getElementById("mRest3").innerHTML = " mins";
+         document.getElementById("mRest").style.color = "#32CD32";
+         if(sunCounter>8)
+         {document.getElementById("mRest").innerHTML = rest_time.toFixed(2);
+          let cha = document.getElementById("mLoc");
+          cha.style.display = "none";
+         }
      }
     
-    document.getElementById("mTwelve").innerHTML = twelveSpeed.toFixed(2);   // 12 speed
-    document.getElementById("mAvg").innerHTML = avg_speed_req.toFixed(2);  // Avg. speed req
+    if(sunCounter>8)
+    {document.getElementById("mTwelve").innerHTML = twelveSpeed.toFixed(2);   // 12 speed
+     document.getElementById("mAvg").innerHTML = avg_speed_req.toFixed(2);  // Avg. speed req
+     let cha = document.getElementById("mLoc");
+     cha.style.display = "none";
+    }
+   
+   
    // document.getElementById("mRest").innerHTML = rest_time.toFixed(2);     // rest time
 
    //console.log(latitude);
