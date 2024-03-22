@@ -166,6 +166,11 @@
 
 <p id=mLoc class = "SpecialFont"> Getting the device location</p>
 
+
+<p id=Latitude1 class = "fontX">Latitude: <span class = "fontX" id="Lat1">0.0000</span></p>
+<p id=Longitude1 class = "fontX">Longitude: <span class = "fontX" id="Lon1">0.0000</span></p>
+
+
 <script>
 //<><><><><><><><><><><><><><><><><><><><><><><>    <script started>      <><><><><><><><><><><><><><><><><><><><><><><><><>
 
@@ -173,6 +178,21 @@
 let latitude = 13.1225152;
 let longitude = 77.6103922;
 let sunCounter = 0;
+
+const successCB = (position) => {
+
+//  setTimeout(SunsetFunction, 6000);
+  console.log(position);
+  document.getElementById("Lat1").innerHTML=(position.coords.latitude);
+  document.getElementById("Lon1").innerHTML=(position.coords.longitude);
+  //console.log(longitude);
+};
+
+const errorCB = (error) => {
+ // console.log(error);
+};
+    
+const id = navigator.geolocation.watchPosition(successCB, errorCB);
 
 const successCallback = (position) => {
   latitude = position.coords.latitude;
@@ -352,6 +372,7 @@ function calculateFunction() {
      }
      else
      {
+         document.getElementById("mRest3").style.display = "inline";
          document.getElementById("mRest3").innerHTML = " mins";
          document.getElementById("mRest").style.color = "#32CD32";
          if(sunCounter>8)
