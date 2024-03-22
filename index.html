@@ -119,11 +119,11 @@
 
 <!--<button class = "sizeButton" onclick="distanceFunction()">Distance covered</button>  -->
 <fieldset class = "fieLD"><legend>Dist. covered</legend>
-<input class="sizeButton" type="number" id="distText" value = "2.2"/>
+<input class="sizeButton" type="number" id="distText" value = "2.3"/>
 </fieldset>
 <!-- <button class = "sizeButton" onclick="SetDistFunction()">Total distance</button>  -->
 <fieldset class = "fieLD"><legend>Total dist.</legend>
-<input type="number" class="sizeButton" id="TotDist" value="11.7"/>
+<input type="number" class="sizeButton" id="TotDist" value="11.8"/>
 </fieldset>
 
 <br><br><br><br><br>
@@ -141,9 +141,26 @@
 
 <script>
 //<><><><><><><><><><><><><><><><><><><><><><><>    <script started>      <><><><><><><><><><><><><><><><><><><><><><><><><>
+
+
+let latitude = 13.112278;
+let longitude = 77.595146;
+
+const successCallback = (position) => {
+  latitude = position.coords.latitude;
+  longitude = position.coords.longitude;
+  //console.log(latitude);
+  //console.log(longitude);
+};
+
+const errorCallback = (error) => {
+  console.log(error);
+};
+
+// Fetching the user's live location
+navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
     
-    
-let distance = 11.7;
+let distance = 11.8;
 document.getElementById("mTwelve").innerHTML = "0.00";
 
 var a = document.getElementById("mRest1");
@@ -163,14 +180,14 @@ function SetDistFunction()
     
 let current_distance = 0.0
 
-let latitude = 13.112278;
-let longitude = 77.595146
 let time = new Date();
 
 
 distance = (document.getElementById("TotDist").value);
 current_distance = (document.getElementById("distText").value);
 
+
+// Calling the sunset-sunrise time API
 const url = `https://api.sunrisesunset.io/json?lat=${latitude}&lng=${longitude}`
 let fetchedObj=fetch(url)
   .then(response => response.json())
@@ -273,8 +290,10 @@ function calculateFunction() {
     document.getElementById("mTwelve").innerHTML = twelveSpeed.toFixed(2);   // 12 speed
     document.getElementById("mAvg").innerHTML = avg_speed_req.toFixed(2);  // Avg. speed req
    // document.getElementById("mRest").innerHTML = rest_time.toFixed(2);     // rest time
-    
-  }
+
+   //console.log(latitude);
+   //console.log(longitude);
+}
 
     
 </script>
