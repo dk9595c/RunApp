@@ -140,7 +140,7 @@
 </head>
 <body bgcolor='#000000'>
 
-<p class="fontX">Avg. speed calculator</p>
+<p class="fontX">Average speed calculator</p>
 
 <!--<button class = "sizeButton" onclick="distanceFunction()">Distance covered</button>  -->
 <fieldset class = "fieLD"><legend>Dist. covered</legend>
@@ -170,6 +170,8 @@
 <p id=Latitude1 class = "fontX">Latitude: <span class = "fontX" id="Lat1">0.0000</span></p>
 <p id=Longitude1 class = "fontX">Longitude: <span class = "fontX" id="Lon1">0.0000</span></p>
 
+<p id=DistTravelled class = "fontX">Distance covered: <span class = "fontX" id="DistMagnitude">0.0000</span> kms</p>
+
 
 <script>
 //<><><><><><><><><><><><><><><><><><><><><><><>    <script started>      <><><><><><><><><><><><><><><><><><><><><><><><><>
@@ -179,12 +181,42 @@ let latitude = 13.1225152;
 let longitude = 77.6103922;
 let sunCounter = 0;
 
+let firstLat = 0.00;
+let firstLon = 0.00;
+let calcLat = 0.00;
+let calcLon = 0.00;
+let LatLonFlag = 0;
+let InstDistance = 0.00;
+let PIvar = Math.PI/180;
+
+const options = {
+  enableHighAccuracy: true,
+};
+
 const successCB = (position) => {
 
 //  setTimeout(SunsetFunction, 6000);
   console.log(position);
   document.getElementById("Lat1").innerHTML=(position.coords.latitude);
   document.getElementById("Lon1").innerHTML=(position.coords.longitude);
+  document.getElementById("DistMagnitude").innerHTML=(InstDistance);
+  
+  if(LatLonFlag == 0)
+    {
+        firstLat = position.coords.latitude;
+        firstLon = position.coords.longitude;
+        LatLonFlag = 1;
+    }
+    
+  if(LatLonFlag == 1)
+    {
+      InstDistance+= Math.acos(Math.sin(firstLat*PIvar)*Math.sin(position.coords.latitude*PIvar)+Math.cos(firstLat*PIvar)*Math.cos(position.coords.latitude*PIvar)*Math.cos(position.coords.longitude*PIvar-firstLon*PIvar))*6371;
+      firstLat = position.coords.latitude;
+      firstLon = position.coords.longitude;
+      
+      
+    }
+    
   //console.log(longitude);
 };
 
@@ -192,7 +224,8 @@ const errorCB = (error) => {
  // console.log(error);
 };
     
-const id = navigator.geolocation.watchPosition(successCB, errorCB);
+// Constantly watching the user's position
+const id = navigator.geolocation.watchPosition(successCB, errorCB, options);
 
 const successCallback = (position) => {
   latitude = position.coords.latitude;
@@ -208,7 +241,7 @@ const errorCallback = (error) => {
 };
 
 // Fetching the user's live location
-navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
+navigator.geolocation.getCurrentPosition(successCallback, errorCallback, options);
     
 let distance = 11.8;
 document.getElementById("mTwelve").innerHTML = "----";
@@ -280,7 +313,7 @@ function calculateFunction() {
   let avg_speed_req = 0.0;
   let rest_time = 0.0;
   
-  if(sunCounter<=8)
+  if(sunCounter<=7)
   {SunsetFunction();
    document.getElementById("mAvg").innerHTML = "----";
    document.getElementById("mTwelve").innerHTML = "----";
@@ -316,7 +349,7 @@ function calculateFunction() {
   
   
   let twelveSpeed = ((distance - current_distance) - 5 * (timeDiff)) * 8.571918;
-   if(sunCounter>8)
+   if(sunCounter>7)
    {   var d = document.getElementById("mAvg").style.display = "inline";;
        var e = document.getElementById("mAAA").style.display = "block";;
        var f = document.getElementById("m12_3").style.display = "inline";;
@@ -364,7 +397,7 @@ function calculateFunction() {
          document.getElementById("mRest3").style.display = "inline";
          document.getElementById("mRest3").innerHTML = " hours";
          document.getElementById("mRest").style.color = "#757575";
-         if(sunCounter>8)
+         if(sunCounter>7)
          {document.getElementById("mRest").innerHTML = (rest_time / 60).toFixed(2);
           let cha = document.getElementById("mLoc");
           cha.style.display = "none";
@@ -375,14 +408,14 @@ function calculateFunction() {
          document.getElementById("mRest3").style.display = "inline";
          document.getElementById("mRest3").innerHTML = " mins";
          document.getElementById("mRest").style.color = "#32CD32";
-         if(sunCounter>8)
+         if(sunCounter>7)
          {document.getElementById("mRest").innerHTML = rest_time.toFixed(2);
           let cha = document.getElementById("mLoc");
           cha.style.display = "none";
          }
      }
     
-    if(sunCounter>8)
+    if(sunCounter>7)
     {document.getElementById("mTwelve").innerHTML = twelveSpeed.toFixed(2);   // 12 speed
      document.getElementById("mAvg").innerHTML = avg_speed_req.toFixed(2);  // Avg. speed req
      let cha = document.getElementById("mLoc");
