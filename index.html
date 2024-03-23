@@ -144,7 +144,7 @@
 
 <!--<button class = "sizeButton" onclick="distanceFunction()">Distance covered</button>  -->
 <fieldset class = "fieLD"><legend>Dist. covered</legend>
-<input class="sizeButton" type="number" id="distText" value = "0.0"/>
+<input class="sizeButton" type="string" id="distText" value = "0.0"/>
 </fieldset>
 <!-- <button class = "sizeButton" onclick="SetDistFunction()">Total distance</button>  -->
 <fieldset class = "fieLD"><legend>Total dist.</legend>
@@ -225,19 +225,20 @@ const successCB = (position) => {
     
   else if(LatLonFlag == 1)
     {
-        firstLat = parseFloat(firstLat).toFixed(5);
-        firstLon = parseFloat(firstLon).toFixed(5);
+        firstLat = parseFloat(parseFloat(firstLat).toFixed(5));
+        firstLon = parseFloat(parseFloat(firstLon).toFixed(5));
         
         SecondTimeStamp = new Date();
         
       InstDistance= Math.acos(Math.sin(firstLat*PIvar)*Math.sin(parseFloat(position.coords.latitude).toFixed(5)*PIvar)+Math.cos(firstLat*PIvar)*Math.cos(parseFloat(position.coords.latitude).toFixed(5)*PIvar)*Math.cos(parseFloat(position.coords.longitude).toFixed(5)*PIvar-firstLon*PIvar))*6371;
       
       let DifferenceInTime = SecondTimeStamp - FirstTimeStamp;
-      DifferenceInTime = DifferenceInTime / 1000 / 3600;    // Converting to hours
+      DifferenceInTime = (DifferenceInTime) / 3600;    // Converting to hours
+      DifferenceInTime = (DifferenceInTime) / 1000;
       
       document.getElementById("CurrSpeedX").value = parseFloat(InstDistance / DifferenceInTime).toFixed(2);
       
-      document.getElementById("distText").value=parseFloat(document.getElementById("distText").value)+InstDistance;
+      document.getElementById("distText").value=parseFloat(parseFloat(document.getElementById("distText").value)+parseFloat(InstDistance)).toFixed(2);
       document.getElementById("distText").value=parseFloat(document.getElementById("distText").value).toFixed(2);
       
       firstLat = parseFloat(position.coords.latitude).toFixed(5);
