@@ -210,9 +210,9 @@ const successCB = (position) => {
   
 //  setTimeout(SunsetFunction, 6000);
   console.log(position);
-  document.getElementById("Lat1").innerHTML=(position.coords.latitude.toFixed(3));
-  document.getElementById("Lon1").innerHTML=(position.coords.longitude.toFixed(3));
-  document.getElementById("DistMagnitude").innerHTML=(InstDistance.toFixed(3));
+  document.getElementById("Lat1").innerHTML=(position.coords.latitude.toFixed(5));
+  document.getElementById("Lon1").innerHTML=(position.coords.longitude.toFixed(5));
+  document.getElementById("DistMagnitude").innerHTML=parseFloat(document.getElementById("distText").value);
   
   if(LatLonFlag == 0)
     {
@@ -225,12 +225,12 @@ const successCB = (position) => {
     
   else if(LatLonFlag == 1)
     {
-        firstLat = parseFloat(firstLat).toFixed(3);
-        firstLon = parseFloat(firstLon).toFixed(3);
+        firstLat = parseFloat(firstLat).toFixed(5);
+        firstLon = parseFloat(firstLon).toFixed(5);
         
         SecondTimeStamp = new Date();
         
-      InstDistance= Math.acos(Math.sin(firstLat*PIvar)*Math.sin(parseFloat(position.coords.latitude).toFixed(3)*PIvar)+Math.cos(firstLat*PIvar)*Math.cos(parseFloat(position.coords.latitude).toFixed(3)*PIvar)*Math.cos(parseFloat(position.coords.longitude).toFixed(3)*PIvar-firstLon*PIvar))*6371;
+      InstDistance= Math.acos(Math.sin(firstLat*PIvar)*Math.sin(parseFloat(position.coords.latitude).toFixed(5)*PIvar)+Math.cos(firstLat*PIvar)*Math.cos(parseFloat(position.coords.latitude).toFixed(5)*PIvar)*Math.cos(parseFloat(position.coords.longitude).toFixed(5)*PIvar-firstLon*PIvar))*6371;
       
       let DifferenceInTime = SecondTimeStamp - FirstTimeStamp;
       DifferenceInTime = DifferenceInTime / 1000 / 3600;    // Converting to hours
@@ -240,8 +240,8 @@ const successCB = (position) => {
       document.getElementById("distText").value=parseFloat(document.getElementById("distText").value)+InstDistance;
       document.getElementById("distText").value=parseFloat(document.getElementById("distText").value).toFixed(2);
       
-      firstLat = parseFloat(position.coords.latitude).toFixed(3);
-      firstLon = parseFloat(position.coords.longitude).toFixed(3);
+      firstLat = parseFloat(position.coords.latitude).toFixed(5);
+      firstLon = parseFloat(position.coords.longitude).toFixed(5);
       FirstTimeStamp = SecondTimeStamp;
       InstDistance=0;
       
