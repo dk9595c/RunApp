@@ -200,6 +200,7 @@ let InstDistance = 0.00;
 let PIvar = Math.PI/180;
 let FirstTimeStamp = new Date();
 let SecondTimeStamp = new Date();
+let SuccessCounter = 0;
 
 const options = {
   enableHighAccuracy: true,
@@ -207,46 +208,13 @@ const options = {
 
 const successCB = (position) => {
 
-  
+  SuccessCounter+=1;
 //  setTimeout(SunsetFunction, 6000);
   console.log(position);
-  document.getElementById("Lat1").innerHTML=(position.coords.latitude.toFixed(5));
-  document.getElementById("Lon1").innerHTML=(position.coords.longitude.toFixed(5));
+  document.getElementById("Lat1").innerHTML=parseFloat(position.coords.latitude.toFixed(5));
+  document.getElementById("Lon1").innerHTML=parseFloat(position.coords.longitude.toFixed(5));
   document.getElementById("DistMagnitude").innerHTML=parseFloat(document.getElementById("distText").value);
   
-  if(LatLonFlag == 0)
-    {
-        firstLat = parseFloat(position.coords.latitude);
-        firstLon = parseFloat(position.coords.longitude);
-        FirstTimeStamp = new Date();
-        LatLonFlag = 1;
-        InstDistance=0;
-    }
-    
-  else if(LatLonFlag == 1)
-    {
-        firstLat = parseFloat(parseFloat(firstLat).toFixed(5));
-        firstLon = parseFloat(parseFloat(firstLon).toFixed(5));
-        
-        SecondTimeStamp = new Date();
-        
-      InstDistance= Math.acos(Math.sin(firstLat*PIvar)*Math.sin(parseFloat(position.coords.latitude).toFixed(5)*PIvar)+Math.cos(firstLat*PIvar)*Math.cos(parseFloat(position.coords.latitude).toFixed(5)*PIvar)*Math.cos(parseFloat(position.coords.longitude).toFixed(5)*PIvar-firstLon*PIvar))*6371;
-      
-      let DifferenceInTime = SecondTimeStamp - FirstTimeStamp;
-      DifferenceInTime = (DifferenceInTime) / 3600;    // Converting to hours
-      DifferenceInTime = (DifferenceInTime) / 1000;
-      
-      document.getElementById("CurrSpeedX").value = parseFloat(InstDistance / DifferenceInTime).toFixed(2);
-      
-      document.getElementById("distText").value=parseFloat(parseFloat(document.getElementById("distText").value)+parseFloat(InstDistance)).toFixed(2);
-      document.getElementById("distText").value=parseFloat(document.getElementById("distText").value).toFixed(2);
-      
-      firstLat = parseFloat(position.coords.latitude).toFixed(5);
-      firstLon = parseFloat(position.coords.longitude).toFixed(5);
-      FirstTimeStamp = SecondTimeStamp;
-      InstDistance=0;
-      
-    }
     
   //console.log(longitude);
 };
@@ -431,6 +399,7 @@ function calculateFunction() {
         b.style.display = "none";
         c.style.display = "none";
     }
+   sunCounter+=1;
    }
     if(rest_time > 60)
      {
@@ -467,6 +436,45 @@ function calculateFunction() {
 
    //console.log(latitude);
    //console.log(longitude);
+   
+   if(LatLonFlag == 0 && sunCounter>8 && SuccessCounter>2)
+     {
+         firstLat = parseFloat(parseFloat(document.getElementById("Lon1").innerHTML).toFixed(5));
+         firstLon = parseFloat(parseFloat(document.getElementById("Lat1").innerHTML).toFixed(5));
+         //FirstTimeStamp = new Date();
+         LatLonFlag = 1;
+         InstDistance=0;
+     }
+     
+   else if(LatLonFlag == 1 && SuccessCounter>2)
+     {
+         firstLat = parseFloat(parseFloat(firstLat).toFixed(5));
+         firstLon = parseFloat(parseFloat(firstLon).toFixed(5));
+         
+         //SecondTimeStamp = new Date();
+         
+       InstDistance= Math.acos(Math.sin(firstLat*PIvar)*Math.sin(parseFloat(parseFloat(document.getElementById("Lat1").innerHTML).toFixed(5))*PIvar)+Math.cos(firstLat*PIvar)*Math.cos(parseFloat(parseFloat(document.getElementById("Lat1").innerHTML).toFixed(5))*PIvar)*Math.cos(parseFloat(parseFloat(document.getElementById("Lon1").innerHTML).toFixed(5))*PIvar-firstLon*PIvar))*6371;
+       console.log(InstDistance);
+       //let DifferenceInTime = SecondTimeStamp - FirstTimeStamp;
+       //DifferenceInTime = (DifferenceInTime) / 3600;    // Converting to hours
+       //DifferenceInTime = (DifferenceInTime) / 1000;
+       
+       document.getElementById("CurrSpeedX").value = parseFloat(InstDistance * 3600).toFixed(2);
+       
+       document.getElementById("distText").value=parseFloat(parseFloat(document.getElementById("distText").value)+parseFloat(InstDistance)).toFixed(2);
+       document.getElementById("distText").value=parseFloat(document.getElementById("distText").value).toFixed(2);
+       
+       firstLat = parseFloat(document.getElementById("Lat1").innerHTML).toFixed(5);
+       firstLon = parseFloat(document.getElementById("Lon1").innerHTML).toFixed(5);
+       //FirstTimeStamp = SecondTimeStamp;
+       InstDistance=0;
+       
+       
+       //=ACOS((SIN(RADIANS(Lat1)) * SIN(RADIANS(Lat2))) + (COS(RADIANS(Lat1)) * COS(RADIANS(Lat2))) * (COS(RADIANS(Lon2) - RADIANS(Lon1)))) * 6371
+       
+       
+     } // end of else if
+   
 }
 
     
