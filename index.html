@@ -112,6 +112,16 @@
     margin-top : 0px;
     display : none;
 }
+
+.smallFont
+{
+    font-family : Arial;
+    font-size : 8px;
+    color : #32CD32;
+    margin-top : 0px;
+    display : block;
+    text-align : right;
+}
 .fieLD
 {
     font-family: Arial;
@@ -181,6 +191,7 @@
 <p id=Longitude1 class = "fontX">Longitude: <span class = "fontX" id="Lon1">0.0000</span></p>
 
 <p id=DistTravelled class = "fontX">Distance covered: <span class = "fontX" id="DistMagnitude">0.0000</span> kms</p>
+<p id=VersionX class="smallFont">V21</p>
 
 
 <script>
@@ -439,14 +450,14 @@ function calculateFunction() {
    
    if(LatLonFlag == 0 && sunCounter>8 && SuccessCounter>3)
      {
-         firstLat = parseFloat(parseFloat(document.getElementById("Lon1").innerHTML).toFixed(5));
-         firstLon = parseFloat(parseFloat(document.getElementById("Lat1").innerHTML).toFixed(5));
+         firstLat = parseFloat(parseFloat(document.getElementById("Lat1").innerHTML).toFixed(5));
+         firstLon = parseFloat(parseFloat(document.getElementById("Lon1").innerHTML).toFixed(5));
          //FirstTimeStamp = new Date();
          LatLonFlag = 1;
          InstDistance=0;
      }
      
-   else if(LatLonFlag == 1 && SuccessCounter>3)
+   else if(LatLonFlag == 1 && sunCounter>8 && SuccessCounter>3)
      {
          firstLat = parseFloat(parseFloat(firstLat).toFixed(5));
          firstLon = parseFloat(parseFloat(firstLon).toFixed(5));
