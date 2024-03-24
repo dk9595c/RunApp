@@ -437,7 +437,7 @@ function calculateFunction() {
    //console.log(latitude);
    //console.log(longitude);
    
-   if(LatLonFlag == 0 && sunCounter>8 && SuccessCounter>2)
+   if(LatLonFlag == 0 && sunCounter>8 && SuccessCounter>3)
      {
          firstLat = parseFloat(parseFloat(document.getElementById("Lon1").innerHTML).toFixed(5));
          firstLon = parseFloat(parseFloat(document.getElementById("Lat1").innerHTML).toFixed(5));
@@ -446,7 +446,7 @@ function calculateFunction() {
          InstDistance=0;
      }
      
-   else if(LatLonFlag == 1 && SuccessCounter>2)
+   else if(LatLonFlag == 1 && SuccessCounter>3)
      {
          firstLat = parseFloat(parseFloat(firstLat).toFixed(5));
          firstLon = parseFloat(parseFloat(firstLon).toFixed(5));
