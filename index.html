@@ -191,7 +191,7 @@
 <p id=Longitude1 class = "fontX">Longitude: <span class = "fontX" id="Lon1">0.0000</span></p>
 
 <p id=DistTravelled class = "fontX">Inst. Distance: <span class = "fontX" id="DistMagnitude">0.0000</span> kms</p>
-<p id=VersionX class="smallFont">V22</p>
+<p id=VersionX class="smallFont">V23</p>
 
 
 <script>
@@ -212,6 +212,7 @@ let PIvar = Math.PI/180;
 let FirstTimeStamp = new Date();
 let SecondTimeStamp = new Date();
 let SuccessCounter = 0;
+let TempDistance = 0.000;
 
 const options = {
   enableHighAccuracy: true,
@@ -465,6 +466,7 @@ function calculateFunction() {
          //SecondTimeStamp = new Date();
          
        InstDistance= Math.acos(Math.sin(firstLat*PIvar)*Math.sin(parseFloat(parseFloat(document.getElementById("Lat1").innerHTML).toFixed(5))*PIvar)+Math.cos(firstLat*PIvar)*Math.cos(parseFloat(parseFloat(document.getElementById("Lat1").innerHTML).toFixed(5))*PIvar)*Math.cos(parseFloat(parseFloat(document.getElementById("Lon1").innerHTML).toFixed(5))*PIvar-firstLon*PIvar))*6371;
+       console.log(firstLat);
        console.log(InstDistance);
        document.getElementById("DistMagnitude").innerHTML=InstDistance.toFixed(4);
        //let DifferenceInTime = SecondTimeStamp - FirstTimeStamp;
@@ -473,8 +475,8 @@ function calculateFunction() {
        
        document.getElementById("CurrSpeedX").value = parseFloat(InstDistance * 3600).toFixed(2);
        
-       document.getElementById("distText").value=parseFloat(document.getElementById("distText").value)+parseFloat(InstDistance);
-       document.getElementById("distText").value=parseFloat(document.getElementById("distText").value).toFixed(2);
+       TempDistance=TempDistance+parseFloat(InstDistance);
+       document.getElementById("distText").value=TempDistance.toFixed(2);
        
        firstLat = parseFloat(document.getElementById("Lat1").innerHTML).toFixed(5);
        firstLon = parseFloat(document.getElementById("Lon1").innerHTML).toFixed(5);
