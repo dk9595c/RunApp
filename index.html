@@ -191,7 +191,7 @@
 <p id=Longitude1 class = "fontX">Longitude: <span class = "fontX" id="Lon1">0.0000</span></p>
 
 <p id=DistTravelled class = "fontX">Inst. Distance: <span class = "fontX" id="DistMagnitude">0.0000</span> kms</p>
-<p id=VersionX class="smallFont">V23</p>
+<p id=VersionX class="smallFont">V24</p>
 
 
 <script>
@@ -213,6 +213,7 @@ let FirstTimeStamp = new Date();
 let SecondTimeStamp = new Date();
 let SuccessCounter = 0;
 let TempDistance = 0.000;
+let InstString = '';
 
 const options = {
   enableHighAccuracy: true,
@@ -468,7 +469,9 @@ function calculateFunction() {
        InstDistance= Math.acos(Math.sin(firstLat*PIvar)*Math.sin(parseFloat(parseFloat(document.getElementById("Lat1").innerHTML).toFixed(5))*PIvar)+Math.cos(firstLat*PIvar)*Math.cos(parseFloat(parseFloat(document.getElementById("Lat1").innerHTML).toFixed(5))*PIvar)*Math.cos(parseFloat(parseFloat(document.getElementById("Lon1").innerHTML).toFixed(5))*PIvar-firstLon*PIvar))*6371;
        console.log(firstLat);
        console.log(InstDistance);
-       document.getElementById("DistMagnitude").innerHTML=InstDistance.toFixed(4);
+       InstString+=InstDistance.toFixed(4);
+       InstString+='\n';
+       document.getElementById("DistMagnitude").innerHTML=InstString;
        //let DifferenceInTime = SecondTimeStamp - FirstTimeStamp;
        //DifferenceInTime = (DifferenceInTime) / 3600;    // Converting to hours
        //DifferenceInTime = (DifferenceInTime) / 1000;
