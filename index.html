@@ -223,9 +223,12 @@ const successCB = (position) => {
 
   SuccessCounter+=1;
 //  setTimeout(SunsetFunction, 6000);
-  console.log(position);
-  document.getElementById("Lat1").innerHTML=parseFloat(position.coords.latitude.toFixed(5));
-  document.getElementById("Lon1").innerHTML=parseFloat(position.coords.longitude.toFixed(5));
+  // console.log(position);
+  // document.getElementById("Lat1").innerHTML=parseFloat(position.coords.latitude.toFixed(5));
+  document.getElementById("Lat1").innerHTML=parseFloat(fixMyNumberTo(position.coords.latitude,5));
+  // document.getElementById("Lon1").innerHTML=parseFloat(position.coords.longitude.toFixed(5));
+  document.getElementById("Lon1").innerHTML=parseFloat(fixMyNumberTo(position.coords.longitude,5));
+
   //document.getElementById("DistMagnitude").innerHTML=parseFloat(document.getElementById("distText").value);
   
     
@@ -233,7 +236,7 @@ const successCB = (position) => {
 };
 
 const errorCB = (error) => {
- // console.log(error);
+// console.log(error);
 };
     
 // Constantly watching the user's position
@@ -243,12 +246,12 @@ const successCallback = (position) => {
   latitude = position.coords.latitude;
   longitude = position.coords.longitude;
 //  setTimeout(SunsetFunction, 6000);
-  console.log(position);
+   console.log(position);
   //console.log(longitude);
 };
 
 const errorCallback = (error) => {
-  console.log(error);
+   console.log(error);
   
 };
 
@@ -290,7 +293,7 @@ const url = `https://api.sunrisesunset.io/json?lat=${latitude}&lng=${longitude}`
 let fetchedObj=fetch(url)
   .then(response => response.json())
   .then(data => {
-    console.log(data)
+     console.log(data)
     time.setHours(parseInt(data.results.sunset[0])+12, parseInt(data.results.sunset[2])*10+parseInt(data.results.sunset[3]), 0, 0);
     
   })
@@ -310,7 +313,8 @@ function distanceFunction() {
   
   timeDiff = (time - currentTime)/(1000 * 3600);
   avg_speed_req = (distance - current_distance) / ( timeDiff);
-  avg_speed_req = avg_speed_req.toFixed(2);
+  // avg_speed_req = avg_speed_req.toFixed(2);
+  avg_speed_req = fixMyNumberTo(avg_speed_req,2);
     
     document.getElementById("mAvg").innerHTML = avg_speed_req;
   
@@ -420,7 +424,7 @@ function calculateFunction() {
          document.getElementById("mRest3").innerHTML = " hours";
          document.getElementById("mRest").style.color = "#757575";
          if(sunCounter>7)
-         {document.getElementById("mRest").innerHTML = (rest_time / 60).toFixed(2);
+         {document.getElementById("mRest").innerHTML = fixMyNumberTo(rest_time / 60,2);
           let cha = document.getElementById("mLoc");
           cha.style.display = "none";
          }
@@ -431,15 +435,15 @@ function calculateFunction() {
          document.getElementById("mRest3").innerHTML = " mins";
          document.getElementById("mRest").style.color = "#32CD32";
          if(sunCounter>7)
-         {document.getElementById("mRest").innerHTML = rest_time.toFixed(2);
+         {document.getElementById("mRest").innerHTML = fixMyNumberTo(rest_time,2);
           let cha = document.getElementById("mLoc");
           cha.style.display = "none";
          }
      }
     
     if(sunCounter>7)
-    {document.getElementById("mTwelve").innerHTML = twelveSpeed.toFixed(2);   // 12 speed
-     document.getElementById("mAvg").innerHTML = avg_speed_req.toFixed(2);  // Avg. speed req
+    {document.getElementById("mTwelve").innerHTML = fixMyNumberTo(twelveSpeed,2);   // 12 speed
+     document.getElementById("mAvg").innerHTML = fixMyNumberTo(avg_speed_req,2);  // Avg. speed req
      let cha = document.getElementById("mLoc");
      cha.style.display = "none";
     }
@@ -452,8 +456,8 @@ function calculateFunction() {
    
    if(LatLonFlag == 0 && sunCounter>8 && SuccessCounter>3)
      {
-         firstLat = parseFloat(parseFloat(document.getElementById("Lat1").innerHTML).toFixed(5));
-         firstLon = parseFloat(parseFloat(document.getElementById("Lon1").innerHTML).toFixed(5));
+         firstLat = parseFloat(fixMyNumberTo(parseFloat(document.getElementById("Lat1").innerHTML),5));
+         firstLon = parseFloat(fixMyNumberTo(parseFloat(document.getElementById("Lon1").innerHTML),5));
          //FirstTimeStamp = new Date();
          LatLonFlag = 1;
          InstDistance=0;
@@ -461,37 +465,47 @@ function calculateFunction() {
      
    else if(LatLonFlag == 1 && sunCounter>8 && SuccessCounter>3)
      {
-         firstLat = parseFloat(parseFloat(firstLat).toFixed(5));
-         firstLon = parseFloat(parseFloat(firstLon).toFixed(5));
+         firstLat = parseFloat(fixMyNumberTo(parseFloat(firstLat),5));
+         firstLon = parseFloat(fixMyNumberTo(parseFloat(firstLon),5));
          
          //SecondTimeStamp = new Date();
          
-       InstDistance= Math.acos(Math.sin(firstLat*PIvar)*Math.sin(parseFloat(parseFloat(document.getElementById("Lat1").innerHTML).toFixed(5))*PIvar)+Math.cos(firstLat*PIvar)*Math.cos(parseFloat(parseFloat(document.getElementById("Lat1").innerHTML).toFixed(5))*PIvar)*Math.cos(parseFloat(parseFloat(document.getElementById("Lon1").innerHTML).toFixed(5))*PIvar-firstLon*PIvar))*6371;
+       InstDistance= Math.acos(Math.sin(firstLat*PIvar)*Math.sin(parseFloat(fixMyNumberTo(parseFloat(document.getElementById("Lat1").innerHTML),5))*PIvar)+Math.cos(firstLat*PIvar)*Math.cos(parseFloat(fixMyNumberTo(parseFloat(document.getElementById("Lat1").innerHTML),5))*PIvar)*Math.cos(parseFloat(fixMyNumberTo(parseFloat(document.getElementById("Lon1").innerHTML),5))*PIvar-firstLon*PIvar))*6371;
        console.log(firstLat);
        console.log(InstDistance);
-       InstString+=InstDistance.toFixed(4);
-       InstString+='\n';
+       InstString = fixMyNumberTo(InstDistance,4);
+      //  InstString+='\n';
        document.getElementById("DistMagnitude").innerHTML=InstString;
        //let DifferenceInTime = SecondTimeStamp - FirstTimeStamp;
        //DifferenceInTime = (DifferenceInTime) / 3600;    // Converting to hours
        //DifferenceInTime = (DifferenceInTime) / 1000;
        
-       document.getElementById("CurrSpeedX").value = parseFloat(InstDistance * 3600).toFixed(2);
+       document.getElementById("CurrSpeedX").value = parseFloat(fixMyNumberTo(parseFloat(InstDistance * 3600),2));
        
        TempDistance=TempDistance+parseFloat(InstDistance);
-       document.getElementById("distText").value=TempDistance.toFixed(2);
+       document.getElementById("distText").value = fixMyNumberTo(TempDistance,2);
        
-       firstLat = parseFloat(document.getElementById("Lat1").innerHTML).toFixed(5);
-       firstLon = parseFloat(document.getElementById("Lon1").innerHTML).toFixed(5);
+       firstLat = fixMyNumberTo(parseFloat(document.getElementById("Lat1").innerHTML),5);
+       firstLon = fixMyNumberTo(parseFloat(document.getElementById("Lon1").innerHTML),5);
        //FirstTimeStamp = SecondTimeStamp;
        InstDistance=0;
        
        
        //=ACOS((SIN(RADIANS(Lat1)) * SIN(RADIANS(Lat2))) + (COS(RADIANS(Lat1)) * COS(RADIANS(Lat2))) * (COS(RADIANS(Lon2) - RADIANS(Lon1)))) * 6371
-       
+
        
      } // end of else if
-   
+    
+}
+
+function fixMyNumberTo(x,n) {
+if( x==0 || x==undefined || x==null ) {
+  return -1;
+}
+x = x * Math.pow(10,n);
+x = Math.trunc(x);
+x = x / Math.pow(10,n);
+return x;
 }
 
     
